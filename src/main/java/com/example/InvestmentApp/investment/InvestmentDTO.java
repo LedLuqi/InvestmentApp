@@ -3,6 +3,7 @@ package com.example.InvestmentApp.investment;
 import java.time.LocalDate;
 
 public class InvestmentDTO {
+
     private String name;
     private Double interest;
     private CapitalizationPeriod capitalization;

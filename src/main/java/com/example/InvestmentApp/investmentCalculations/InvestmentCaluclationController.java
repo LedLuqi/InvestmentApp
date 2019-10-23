@@ -26,7 +26,13 @@ public class InvestmentCaluclationController {
 
     @PostMapping("{id}/calculations")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public AddedInvestmentCalculation caluclate(@RequestBody InvestmentCalculationDTO investmentCalculationDTO, @PathParam("id") Long id) {
-       return calculationService.saveInvestmentCalculation(calculationService.getAddedInvermentCalculation(investmentCalculationDTO,id));
+    public AddedInvestmentCalculation caluclate(@RequestBody InvestmentCalculationDTO investmentCalculationDTO, @PathParam("id") Long id) throws FutureInvestmentCalculationException {
+       return calculationService.saveInvestmentCalculation(calculationService.getAddedInvestmentCalculation(investmentCalculationDTO,id));
     }
+
+    @ExceptionHandler({ FutureInvestmentCalculationException.class })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleFutureInvestmentCalculationException() {
+    }
+
 }

@@ -2,13 +2,19 @@ package com.example.InvestmentApp.investmentCalculations;
 
 import com.example.InvestmentApp.investment.Investment;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
 public class InvestmentCalculation {
+
+    @Id
+    @GeneratedValue
     private Long id;
     private Long amount;
     private LocalDate caluclationDate;
     private Investment investment;
+    @Enumerated(EnumType.STRING)
     private AlgorithmType algorithm;
     private Long profit;
 

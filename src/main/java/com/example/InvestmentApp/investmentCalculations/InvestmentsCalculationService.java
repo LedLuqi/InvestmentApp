@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Component
@@ -93,7 +94,11 @@ public class InvestmentsCalculationService {
         return investment.multiply(amount).longValue();
     }
 
-    AddedInvestmentCalculation getAddedInvermentCalculation (InvestmentCalculationDTO investmentCalculationDTO, Long id){
+    AddedInvestmentCalculation getAddedInvestmentCalculation (InvestmentCalculationDTO investmentCalculationDTO, Long id) throws FutureInvestmentCalculationException {
+
+        if (investmentService.getInvestmentById(id).getDateOfStart().isAfter(LocalDate.now()))
+            throw new FutureInvestmentCalculationException();
+
         return new AddedInvestmentCalculation(investmentCalculationDTO.getAmount(),
                 investmentCalculationDTO.getCalculateDate(),investmentService.getInvestmentById(id),
                 investmentCalculationDTO.getAlgorithm(),calculateProfit(investmentCalculationDTO));

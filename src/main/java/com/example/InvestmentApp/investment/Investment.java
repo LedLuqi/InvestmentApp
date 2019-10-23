@@ -1,11 +1,16 @@
 package com.example.InvestmentApp.investment;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-
+@Entity
 public class Investment {
+
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private Double interest;
+    @Enumerated(EnumType.STRING)
     private CapitalizationPeriod capitalization;
     private LocalDate dateOfStart;
     private LocalDate dateOfEnd;
