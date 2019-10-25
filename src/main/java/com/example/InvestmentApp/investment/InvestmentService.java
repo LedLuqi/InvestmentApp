@@ -19,8 +19,7 @@ public class InvestmentService {
     }
 
     Investment saveInvestment (InvestmentDTO investmentDTO){
-            return repository.save(new Investment(investmentDTO.getName(),investmentDTO.getInterest(),investmentDTO
-                    .getCapitalization(),investmentDTO.getDateOfStart(),investmentDTO.getDateOfEnd()));
+            return repository.save(new Investment(investmentDTO));
     }
 
     List<InvestmentInfo> getInvestmentInfoList () {

@@ -13,20 +13,20 @@ import java.time.temporal.ChronoUnit;
 @Component
 public class InvestmentsCalculationService {
 
-    private InvestmentCalculationRepository repository;
+    private InvestmentCalculationRepository calculationRepository;
 
     private InvestmentService investmentService;
 
     @Autowired
-    public InvestmentsCalculationService(InvestmentCalculationRepository repository, InvestmentService investmentService) {
-        this.repository = repository;
+    public InvestmentsCalculationService(InvestmentCalculationRepository calculationRepository, InvestmentService investmentService) {
+        this.calculationRepository = calculationRepository;
         this.investmentService = investmentService;
     }
 
     InvestmentCalculationInfo getInfoAndHistoryCalculations(Long id){
         Investment investment = investmentService.getInvestmentById(id);
         return new InvestmentCalculationInfo(investment.getName(),investment.getId(),investment.getCapitalization(),
-                investment.getDateOfStart(),investment.getDateOfEnd(),repository.findAll());
+                investment.getDateOfStart(),investment.getDateOfEnd(),calculationRepository.findAll());
     }
 
     Integer getValidation (CapitalizationPeriod capitalizationPeriod) {
@@ -83,7 +83,7 @@ public class InvestmentsCalculationService {
     }
 
     AddedInvestmentCalculation saveInvestmentCalculation (AddedInvestmentCalculation addedInvestment){
-        repository.save( new InvestmentCalculation(addedInvestment.getAmount(),addedInvestment.getCalculateDate(),
+        calculationRepository.save( new InvestmentCalculation(addedInvestment.getAmount(),addedInvestment.getCalculateDate(),
                 addedInvestment.getInvestment(),addedInvestment.getAlgorithm(),addedInvestment.getProfit()));
         return addedInvestment;
     }

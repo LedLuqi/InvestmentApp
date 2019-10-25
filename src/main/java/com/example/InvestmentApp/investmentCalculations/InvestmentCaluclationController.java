@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 
-@Controller
-@RequestMapping("/api/investments/")
+@RestController
+@RequestMapping("/api/investments")
 public class InvestmentCaluclationController {
 
     InvestmentsCalculationService calculationService;
@@ -18,13 +18,13 @@ public class InvestmentCaluclationController {
         this.calculationService = calculationService;
     }
 
-    @GetMapping("{id}/calculations")
+    @GetMapping("/{id}/calculations")
     @ResponseStatus(HttpStatus.OK)
-    public  InvestmentCalculationInfo getInvestmentAndHistoryOfCalculation (@PathParam("id") Long id) {
+    public InvestmentCalculationInfo getInvestmentAndHistoryOfCalculation (@PathParam("id") Long id) {
         return calculationService.getInfoAndHistoryCalculations(id);
     }
 
-    @PostMapping("{id}/calculations")
+    @PostMapping("/{id}/calculations")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public AddedInvestmentCalculation caluclate(@RequestBody InvestmentCalculationDTO investmentCalculationDTO, @PathParam("id") Long id) throws FutureInvestmentCalculationException {
        return calculationService.saveInvestmentCalculation(calculationService.getAddedInvestmentCalculation(investmentCalculationDTO,id));
