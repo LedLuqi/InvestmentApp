@@ -19,7 +19,8 @@ public class InvestmentService {
     }
 
     Investment saveInvestment (InvestmentDTO investmentDTO){
-            return repository.save(new Investment(investmentDTO));
+           return repository.save(new Investment(investmentDTO.getName(),investmentDTO.getInterest(),
+                   investmentDTO.getCapitalization(),investmentDTO.getDateOfStart(),investmentDTO.getDateOfEnd()));
     }
 
     List<InvestmentInfo> getInvestmentInfoList () {
@@ -33,11 +34,14 @@ public class InvestmentService {
     }
 
     Long getDuration (LocalDate dateOfStart, LocalDate dateOfEnd){
-        return ChronoUnit.DAYS.between(dateOfEnd, dateOfEnd);
+        return ChronoUnit.DAYS.between(dateOfStart,dateOfEnd);
     }
 
     AddedInvestment getAddedInvestment(Investment investment){
-        return new AddedInvestment(investment.getId(),investment.getName(),investment.getInterest(),
+         AddedInvestment addedInvestment = new AddedInvestment(investment.getId(),investment.getName(),investment.getInterest(),
                 getDuration(investment.getDateOfStart(),investment.getDateOfEnd()));
+        System.out.println(investment.toString());
+        System.out.println(addedInvestment.toString());
+        return addedInvestment;
     }
 }

@@ -15,12 +15,12 @@ public class Investment {
     private LocalDate dateOfStart;
     private LocalDate dateOfEnd;
 
-    public Investment(InvestmentDTO investmentDTO) {
-        this.name = investmentDTO.getName();
-        this.interest = investmentDTO.getInterest();
-        this.capitalization = investmentDTO.getCapitalization();
-        this.dateOfStart = investmentDTO.getDateOfStart();
-        this.dateOfEnd = investmentDTO.getDateOfEnd();
+    public Investment(String name, Double interest, CapitalizationPeriod capitalization, LocalDate dateOfStart, LocalDate dateOfEnd) {
+        this.name = name;
+        this.interest = interest;
+        this.capitalization = capitalization;
+        this.dateOfStart = dateOfStart;
+        this.dateOfEnd = dateOfEnd;
     }
 
     public Investment() {
@@ -72,5 +72,17 @@ public class Investment {
 
     public void setDateOfEnd(LocalDate dateOfEnd) {
         this.dateOfEnd = dateOfEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "Investment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", interest=" + interest +
+                ", capitalization=" + capitalization +
+                ", dateOfStart=" + dateOfStart +
+                ", dateOfEnd=" + dateOfEnd +
+                '}';
     }
 }

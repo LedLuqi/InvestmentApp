@@ -35,4 +35,55 @@ public class InvestmentCalculation {
         this.algorithm = algorithm;
         this.profit = profit;
     }
+
+    public InvestmentCalculation() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public LocalDate getCaluclationDate() {
+        return caluclationDate;
+    }
+
+    public void setCaluclationDate(LocalDate caluclationDate) {
+        this.caluclationDate = caluclationDate;
+    }
+
+    public Investment getInvestment() {
+        return investment;
+    }
+
+    public void setInvestment(Investment investment) {
+        this.investment = investment;
+    }
+
+    public AlgorithmType getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(AlgorithmType algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public Long getProfit() {
+        return profit;
+    }
+
+    public void setProfit(Long profit) {
+        this.profit = profit;
+    }
 }

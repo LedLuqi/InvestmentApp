@@ -23,13 +23,13 @@ public class InvestmentsCalculationService {
         this.investmentService = investmentService;
     }
 
-    InvestmentCalculationInfo getInfoAndHistoryCalculations(Long id){
+    InvestmentCalculationInfo getInfoAndHistoryCalculations(Long id) {
         Investment investment = investmentService.getInvestmentById(id);
-        return new InvestmentCalculationInfo(investment.getName(),investment.getId(),investment.getCapitalization(),
-                investment.getDateOfStart(),investment.getDateOfEnd(),calculationRepository.findAll());
+        return new InvestmentCalculationInfo(investment.getName(), investment.getId(), investment.getCapitalization(),
+                investment.getDateOfStart(), investment.getDateOfEnd(), calculationRepository.findAll());
     }
 
-    Integer getValidation (CapitalizationPeriod capitalizationPeriod) {
+    Integer getValidation(CapitalizationPeriod capitalizationPeriod) {
         Integer validation = null;
         switch (capitalizationPeriod) {
             case ONE_MONTH:
@@ -47,61 +47,52 @@ public class InvestmentsCalculationService {
         return validation;
     }
 
-    Double calculationInterestForCalculationDay (InvestmentCalculationDTO investmentCalculationDTO){
-
-        Investment investment = investmentService.getInvestmentById(investmentCalculationDTO.getInvestmentId());
-
-        Long days = ChronoUnit.DAYS.between(investment.getDateOfStart(), investmentCalculationDTO.getCalculateDate());
-
-        Long quantityOfValidation = (days / 360) * getValidation(investment.getCapitalization());
-
-        return (((Math.pow((1 + (1 * (investment.getInterest() / quantityOfValidation)) / 100), quantityOfValidation)) - 1) * 100);
-
-    }
-
-    Double calculationInterestForEndOfInterest (InvestmentCalculationDTO investmentCalculationDTO){
-
-        Investment investment = investmentService.getInvestmentById(investmentCalculationDTO.getInvestmentId());
+    Double calculationInterestForDate(Investment investment, LocalDate date) {
 
         Long days = ChronoUnit.DAYS.between(investment.getDateOfStart(), investment.getDateOfEnd());
-
-        Long quantityOfValidation = (days / 360) * getValidation(investment.getCapitalization());
+        Integer validationsPerYear = getValidation(investment.getCapitalization());
+        Long quantityOfValidation = (days / 360) * validationsPerYear;
 
         return (((Math.pow((1 + (1 * (investment.getInterest() / quantityOfValidation)) / 100), quantityOfValidation)) - 1) * 100);
 
     }
 
-    Double calculationTrigger (InvestmentCalculationDTO investmentCalculationDTO) {
+    Double calculationTrigger(InvestmentCalculationDTO investmentCalculationDTO, Investment investment, LocalDate date) {
 
-        switch (investmentCalculationDTO.getAlgorithm()){
+        switch (investmentCalculationDTO.getAlgorithm()) {
             case ALGORITHM_FOR_CALCULATION_DAY:
-                return calculationInterestForCalculationDay(investmentCalculationDTO);
+                return calculationInterestForDate(investment, date);
             case ALGORITHM_FOR_END_OF_INTEREST:
-                return calculationInterestForEndOfInterest(investmentCalculationDTO);
+                return calculationInterestForDate(investment, investment.getDateOfEnd());
+            default:
+                throw new IllegalArgumentException();
         }
-        throw new NullPointerException();
     }
 
-    AddedInvestmentCalculation saveInvestmentCalculation (AddedInvestmentCalculation addedInvestment){
-        calculationRepository.save( new InvestmentCalculation(addedInvestment.getAmount(),addedInvestment.getCalculateDate(),
-                addedInvestment.getInvestment(),addedInvestment.getAlgorithm(),addedInvestment.getProfit()));
+    AddedInvestmentCalculation saveInvestmentCalculation(AddedInvestmentCalculation addedInvestment) {
+        calculationRepository.save(new InvestmentCalculation(addedInvestment.getAmount(), addedInvestment.getCalculateDate(),
+                addedInvestment.getInvestment(), addedInvestment.getAlgorithm(), addedInvestment.getProfit()));
         return addedInvestment;
     }
 
-    public Long calculateProfit(InvestmentCalculationDTO investmentCalculationDTO) {
-        BigDecimal investment = new BigDecimal((calculationTrigger(investmentCalculationDTO) / 100));
+    public Long calculateProfit(InvestmentCalculationDTO investmentCalculationDTO, Investment investmentEntity, LocalDate date) {
+        BigDecimal investment = new BigDecimal((calculationTrigger(investmentCalculationDTO, investmentEntity, date) / 100));
         BigDecimal amount = new BigDecimal(investmentCalculationDTO.getAmount());
         return investment.multiply(amount).longValue();
     }
 
-    AddedInvestmentCalculation getAddedInvestmentCalculation (InvestmentCalculationDTO investmentCalculationDTO, Long id) throws FutureInvestmentCalculationException {
+    AddedInvestmentCalculation getAddedInvestmentCalculation(InvestmentCalculationDTO investmentCalculationDTO, Long id) throws FutureInvestmentCalculationException {
+
+        Investment investment = investmentService.getInvestmentById(id);
 
         if (investmentService.getInvestmentById(id).getDateOfStart().isAfter(LocalDate.now()))
             throw new FutureInvestmentCalculationException();
 
-        return new AddedInvestmentCalculation(investmentCalculationDTO.getAmount(),
-                investmentCalculationDTO.getCalculateDate(),investmentService.getInvestmentById(id),
-                investmentCalculationDTO.getAlgorithm(),calculateProfit(investmentCalculationDTO));
+        LocalDate date = LocalDate.now();
+        Long profit = calculateProfit(investmentCalculationDTO, investment, date);
+
+        return new AddedInvestmentCalculation(investmentCalculationDTO.getAmount(), date,
+                investment, investmentCalculationDTO.getAlgorithm(), profit);
     }
 
 

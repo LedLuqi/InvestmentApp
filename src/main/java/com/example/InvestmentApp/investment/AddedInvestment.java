@@ -1,8 +1,7 @@
 package com.example.InvestmentApp.investment;
 
-import org.springframework.stereotype.Component;
-
 public class AddedInvestment {
+
     private Long id;
     private String name;
     private Double interest;
@@ -48,5 +47,15 @@ public class AddedInvestment {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "AddedInvestment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", interest=" + interest +
+                ", duration=" + duration +
+                '}';
     }
 }
