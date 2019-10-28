@@ -1,8 +1,12 @@
-package com.example.InvestmentApp.investmentCalculations;
+package com.example.investmentapp.investmentCalculations;
 
-import com.example.InvestmentApp.investment.CapitalizationPeriod;
-import com.example.InvestmentApp.investment.Investment;
-import com.example.InvestmentApp.investment.InvestmentService;
+import com.example.investmentapp.investment.data.CapitalizationPeriod;
+import com.example.investmentapp.investment.data.Investment;
+import com.example.investmentapp.investment.InvestmentService;
+import com.example.investmentapp.investmentCalculations.data.AddedInvestmentCalculation;
+import com.example.investmentapp.investmentCalculations.data.InvestmentCalculation;
+import com.example.investmentapp.investmentCalculations.data.InvestmentCalculationDTO;
+import com.example.investmentapp.investmentCalculations.data.InvestmentCalculationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,12 +53,11 @@ public class InvestmentsCalculationService {
 
     Double calculationInterestForDate(Investment investment, LocalDate date) {
 
-        Long days = ChronoUnit.DAYS.between(investment.getDateOfStart(), investment.getDateOfEnd());
+        Long days = ChronoUnit.DAYS.between(investment.getDateOfStart(), date);
         Integer validationsPerYear = getValidation(investment.getCapitalization());
         Long quantityOfValidation = (days / 360) * validationsPerYear;
 
-        return (((Math.pow((1 + (1 * (investment.getInterest() / quantityOfValidation)) / 100), quantityOfValidation)) - 1) * 100);
-
+        return Math.pow(1 + ((investment.getInterest() / 100) / validationsPerYear), quantityOfValidation);
     }
 
     Double calculationTrigger(InvestmentCalculationDTO investmentCalculationDTO, Investment investment, LocalDate date) {

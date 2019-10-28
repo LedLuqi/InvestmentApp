@@ -1,4 +1,4 @@
-package com.example.InvestmentApp.investment;
+package com.example.investmentapp.investment.data;
 
 public class InvestmentInfo {
 
@@ -8,6 +8,9 @@ public class InvestmentInfo {
     public InvestmentInfo(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public InvestmentInfo() {
     }
 
     public Long getId() {

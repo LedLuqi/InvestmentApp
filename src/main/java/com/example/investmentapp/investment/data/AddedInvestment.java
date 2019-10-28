@@ -1,4 +1,4 @@
-package com.example.InvestmentApp.investment;
+package com.example.investmentapp.investment.data;
 
 public class AddedInvestment {
 

@@ -1,5 +1,6 @@
-package com.example.InvestmentApp.investment;
+package com.example.investmentapp.investment.data;
 
+import javax.validation.constraints.Future;
 import java.time.LocalDate;
 
 public class InvestmentDTO {
@@ -8,6 +9,7 @@ public class InvestmentDTO {
     private Double interest;
     private CapitalizationPeriod capitalizationPeriod;
     private LocalDate dateOfStart;
+    @Future
     private LocalDate dateOfEnd;
 
     public InvestmentDTO() {

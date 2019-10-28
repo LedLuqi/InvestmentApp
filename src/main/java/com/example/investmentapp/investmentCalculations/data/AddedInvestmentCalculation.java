@@ -1,6 +1,6 @@
-package com.example.InvestmentApp.investmentCalculations;
+package com.example.investmentapp.investmentCalculations.data;
 
-import com.example.InvestmentApp.investment.Investment;
+import com.example.investmentapp.investment.data.Investment;
 
 import java.time.LocalDate;
 

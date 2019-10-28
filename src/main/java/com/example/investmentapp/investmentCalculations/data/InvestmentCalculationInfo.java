@@ -1,6 +1,6 @@
-package com.example.InvestmentApp.investmentCalculations;
+package com.example.investmentapp.investmentCalculations.data;
 
-import com.example.InvestmentApp.investment.CapitalizationPeriod;
+import com.example.investmentapp.investment.data.CapitalizationPeriod;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +14,9 @@ public class InvestmentCalculationInfo {
     private LocalDate dateOfEnd;
     private List<InvestmentCalculation> calculationList;
 
-    public InvestmentCalculationInfo(String intereName, Long interestInterest, CapitalizationPeriod capitalization,
+    public InvestmentCalculationInfo(String interestName, Long interestInterest, CapitalizationPeriod capitalization,
                                      LocalDate dateOfStart, LocalDate dateOfEnd, List<InvestmentCalculation> calculationList) {
-        this.intereName = intereName;
+        this.intereName = interestName;
         this.interestInterest = interestInterest;
         this.capitalization = capitalization;
         this.dateOfStart = dateOfStart;
@@ -27,11 +27,11 @@ public class InvestmentCalculationInfo {
     public InvestmentCalculationInfo() {
     }
 
-    public String getIntereName() {
+    public String getInterestName() {
         return intereName;
     }
 
-    public void setIntereName(String intereName) {
+    public void setInterestName(String interestName) {
         this.intereName = intereName;
     }
 

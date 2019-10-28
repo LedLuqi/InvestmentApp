@@ -1,5 +1,9 @@
-package com.example.InvestmentApp.investment;
+package com.example.investmentapp.investment;
 
+import com.example.investmentapp.investment.data.AddedInvestment;
+import com.example.investmentapp.investment.data.Investment;
+import com.example.investmentapp.investment.data.InvestmentDTO;
+import com.example.investmentapp.investment.data.InvestmentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +44,6 @@ public class InvestmentService {
     AddedInvestment getAddedInvestment(Investment investment){
          AddedInvestment addedInvestment = new AddedInvestment(investment.getId(),investment.getName(),investment.getInterest(),
                 getDuration(investment.getDateOfStart(),investment.getDateOfEnd()));
-        System.out.println(investment.toString());
-        System.out.println(addedInvestment.toString());
         return addedInvestment;
     }
 }

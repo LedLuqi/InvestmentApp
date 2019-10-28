@@ -1,9 +1,9 @@
-package com.example.InvestmentApp;
+package com.example.investmentapp;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.example.InvestmentApp")
+@ComponentScan("com.example.investmentapp")
 public class InvestmentAppConfig {
 }
